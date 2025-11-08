@@ -56,7 +56,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <nav className="space-y-4">
             <NavItem href="/dashboard" icon={<FiHome size={20} />} label="Feed" />
             <NavItem href="/dashboard/projects" icon={<FiGrid size={20} />} label="Projects" />
-            <NavItem href="/dashboard/settings" icon={<FiSettings size={20} />} label="Settings" />
             <NavItem href="/dashboard/communities" icon={<FiGrid size={20} />} label="Communities" />
             <NavItem href="/dashboard/recentactivity" icon={<FiGrid size={20} />} label="Recent-Activities" />
             <NavItem href="/dashboard/Academics" icon={<FiGrid size={20} />} label="Academics" />
