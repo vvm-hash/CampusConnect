@@ -7,11 +7,20 @@ import { FiHome, FiGrid, FiSettings, FiLogOut, FiBell, FiSearch } from "react-ic
 import React from "react"; // fixes JSX namespace error
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase"; // SAME path used in login / signup
+import { useRouter } from "next/navigation";
+
 
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(true);
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await signOut(auth); // logs the user out
+    router.push("/login"); // sends user to login page
+  };
+
 
   const NavItem = ({
     href,
@@ -57,12 +66,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
 
           <button
-            onClick={() => signOut(auth)}
+            onClick={handleLogout}
             className="flex gap-3 items-center text-red-500 mt-10 hover:text-red-600"
           >
             <FiLogOut size={20} />
             {open && "Logout"}
           </button>
+
 
 
         </nav>
