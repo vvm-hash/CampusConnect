@@ -1,7 +1,6 @@
-export default {
-  content: [
-    "./app/**/*.{js,ts,jsx,tsx}",
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-  ],
-};
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  turbopack: false
+}
+
+export default nextConfig
