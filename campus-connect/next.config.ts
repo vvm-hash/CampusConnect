@@ -9,8 +9,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // The correct way to disable Turbopack on Next.js 16
   experimental: {
-    turbo: false        // <--- THIS is the fix
+    optimizePackageImports: false, // actively prevents turbopack opt behavior
   }
 };
 
