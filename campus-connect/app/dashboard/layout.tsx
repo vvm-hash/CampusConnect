@@ -61,6 +61,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <NavItem href="/dashboard/Academics" icon={<FiGrid size={20} />} label="Academics" />
             <NavItem href="/dashboard/events" icon={<FiGrid size={20} />} label="Events" />
             <NavItem href="/dashboard/profile" icon={<FiGrid size={20} />} label="Profile" />
+            <NavItem href="/dashboard/inbox" icon={<FiGrid size={20} />} label="Inbox" />
 
             <button
               onClick={handleLogout}

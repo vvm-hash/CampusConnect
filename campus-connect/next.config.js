@@ -1,11 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    optimizeCss: false, // disable lightningcss
+    optimizeCss: false, // keep this
   },
-  turbopack: false, // force webpack instead of turbopack
   eslint: {
-    ignoreDuringBuilds: true, // ✅ allow deploy even if ESLint errors exist
+    ignoreDuringBuilds: true, // keep this
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+    ],
   },
 };
 
