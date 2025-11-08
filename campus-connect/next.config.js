@@ -1,16 +1,28 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  compiler: {
-    // Disable lightningcss (Tailwind v4 requires this on Vercel)
-    css: { lightningcss: false }
+  webpack(config) {
+    // Disable LightningCSS by forcing Webpack CSS handling
+    config.module.rules.forEach(rule => {
+      if (Array.isArray(rule.use)) {
+        rule.use.forEach(loader => {
+          if (loader.loader?.includes("css-loader")) {
+            loader.options.modules = {
+              exportLocalsConvention: "as-is"
+            };
+          }
+        });
+      }
+    });
+
+    return config;
   },
-  experimental: {
-    // Fully disable Turbopack build pipeline
-    turbo: false
-  },
+
   images: {
     remotePatterns: [
-      { protocol: "https", hostname: "images.unsplash.com" }
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com"
+      }
     ]
   }
 };
