@@ -20,10 +20,14 @@ export default function SignupPage() {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // ✅ Store extra user data in Firestore
+      // ✅ Store user profile in Firestore
       await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
         name,
         email,
+        photoURL: null,         // can be updated later
+        branch: "",             // user will fill later in Profile page
+        year: "",               // user will fill later in Profile page
         createdAt: new Date(),
       });
 
@@ -32,6 +36,7 @@ export default function SignupPage() {
       alert(error.message);
     }
   };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-amber-50 to-orange-100 px-6">

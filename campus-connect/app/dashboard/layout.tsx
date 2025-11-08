@@ -8,7 +8,7 @@ import React from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
-import { AuthProvider } from "@/app/context/AuthContext"; // ✅ ADDED
+import { AuthProvider } from "@/app/context/AuthContext"; // ✅
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(true);
@@ -61,6 +61,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <NavItem href="/dashboard/recentactivity" icon={<FiGrid size={20} />} label="Recent-Activities" />
             <NavItem href="/dashboard/Academics" icon={<FiGrid size={20} />} label="Academics" />
             <NavItem href="/dashboard/events" icon={<FiGrid size={20} />} label="Events" />
+            <NavItem href="/dashboard/profile" icon={<FiGrid size={20} />} label="Profile" />
 
             <button
               onClick={handleLogout}
@@ -72,7 +73,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </nav>
         </div>
 
-        {/* RIGHT SIDE CONTENT */}
+        {/* RIGHT SIDE */}
         <div className="flex-1 flex flex-col">
           <div className="flex justify-between items-center px-6 py-4 bg-white shadow-sm">
             <div className="flex items-center bg-gray-100 p-2 rounded-lg w-72">
@@ -86,7 +87,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </div>
           </div>
 
-          {/* Page Content */}
           <div className="p-6 overflow-y-auto">{children}</div>
         </div>
 

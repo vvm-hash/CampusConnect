@@ -1,115 +1,83 @@
 "use client";
 
+import { useState } from "react";
 import { useParams } from "next/navigation";
-import { useState, useEffect } from "react";
-import { db } from "@/lib/firebase";
-import { doc, setDoc, collection, onSnapshot } from "firebase/firestore";
-import { useAuth } from "@/app/context/AuthContext";  
+import InterestedPanel from "./InterestedPanel"; // keep your existing component
 
 export default function CategoryPage() {
-  const params = useParams();
-  const festival = params.festival as string;
-  const category = params.category as string;
-
-  const { user } = useAuth();
-
-  const [interested, setInterested] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [people, setPeople] = useState<any[]>([]);
+  const { festival, category } = useParams();
   const [showPanel, setShowPanel] = useState(false);
+  const [interested, setInterested] = useState(false);
 
-  const handleInterest = async () => {
-    if (!user) return alert("Login first");
-
-    setLoading(true);
-
-    await setDoc(
-      doc(db, "event-interests", `${festival}-${category}`, "people", user.uid),
-      {
-        userId: user.uid,
-        name: user.displayName || "Anonymous Student",
-        festival,
-        category,
-        timestamp: new Date(),
-      }
-    );
-
+  const handleInterested = () => {
     setInterested(true);
-    setLoading(false);
   };
 
-  useEffect(() => {
-    const peopleRef = collection(
-      db,
-      "event-interests",
-      `${festival}-${category}`,
-      "people"
-    );
-
-    const unsubscribe = onSnapshot(peopleRef, (snapshot) => {
-      setPeople(snapshot.docs.map((d) => d.data()));
-    });
-
-    return () => unsubscribe();
-  }, [festival, category]);
-
   return (
-    <div className="mt-10 relative">
+    <div className="p-6 h-full overflow-y-auto">
+      {/* Title */}
       <h1 className="text-4xl font-bold text-orange-800 mb-6">
         {category.toUpperCase()} at {festival.toUpperCase()}
       </h1>
 
-      <div className="flex gap-4">
-        <button
-          onClick={handleInterest}
-          disabled={loading || interested}
-          className={`px-6 py-3 rounded-xl font-semibold transition ${
-            interested
-              ? "bg-orange-400 text-white"
-              : "bg-orange-600 hover:bg-orange-700 text-white"
-          }`}
-        >
-          {interested ? "Interested ✓" : loading ? "Saving..." : "I'm Interested"}
-        </button>
+      {/* ---------- EVENT DETAILS SECTION ---------- */}
+      <div className="bg-white p-6 rounded-2xl shadow-md border border-orange-200 max-w-4xl">
+        <h2 className="text-2xl font-semibold text-orange-700 mb-4">Event Details</h2>
+
+        <div className="text-gray-700 leading-relaxed space-y-3 max-h-[40vh] overflow-y-auto pr-2">
+          <p>
+            Welcome to the {category} event at {festival}! This competition brings together 
+            the brightest minds to collaborate, innovate, and build something extraordinary.
+          </p>
+
+          <p>
+            <strong>Rules & Requirements:</strong>
+          </p>
+
+          <ul className="list-disc list-inside space-y-1">
+            <li>Team size: 2-4 members</li>
+            <li>Event duration: 24 hours</li>
+            <li>Topic/theme will be announced at the venue</li>
+            <li>Bring your own laptops & chargers</li>
+            <li>Maintain discipline and respect campus rules</li>
+          </ul>
+
+          <p>
+            Judging will be based on creativity, implementation, teamwork, and presentation.
+            Certificates will be awarded to all participants, and exciting prizes await the winners!
+          </p>
+        </div>
+      </div>
+
+      {/* ---------- INTEREST BUTTONS ---------- */}
+      <div className="flex gap-4 mt-8">
+
+        {!interested ? (
+          <button
+            onClick={handleInterested}
+            className="px-6 py-2 bg-orange-600 text-white rounded-lg font-semibold hover:bg-orange-700 transition"
+          >
+            I'm Interested
+          </button>
+        ) : (
+          <button
+            disabled
+            className="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg font-semibold cursor-default"
+          >
+            ✅ Interested
+          </button>
+        )}
 
         <button
           onClick={() => setShowPanel(true)}
-          className="px-6 py-3 rounded-xl border border-orange-600 text-orange-700 hover:bg-orange-50 font-semibold transition"
+          className="px-6 py-2 border border-orange-600 text-orange-600 rounded-lg font-semibold hover:bg-orange-50 transition"
         >
-          View Interested ({people.length})
+          View Interested (1)
         </button>
       </div>
 
-      {/* Slide Panel */}
-      {showPanel && (
-        <div className="fixed top-0 right-0 h-full w-80 bg-white shadow-xl p-6 z-50 animate-slide-left">
-          <h2 className="text-2xl font-bold text-orange-800 mb-4">
-            Interested People
-          </h2>
-
-          <div className="space-y-4 max-h-[85vh] overflow-y-auto pr-2">
-            {people.length === 0 && (
-              <p className="text-gray-500 text-sm">No one has shown interest yet.</p>
-            )}
-
-            {people.map((p) => (
-              <div
-                key={p.userId}
-                className="border border-orange-200 p-3 rounded-xl bg-white shadow-sm"
-              >
-                <p className="font-semibold text-gray-800">{p.name}</p>
-              </div>
-            ))}
-          </div>
-
-          <button
-            onClick={() => setShowPanel(false)}
-            className="mt-6 block w-full px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition"
-          >
-            Close
-          </button>
-        </div>
-      )}
+      {/* ---------- SLIDE PANEL ---------- */}
+      <InterestedPanel open={showPanel} onClose={() => setShowPanel(false)} />
     </div>
   );
 }

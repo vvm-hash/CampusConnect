@@ -5,7 +5,10 @@ import Link from "next/link";
 
 export default function FestivalPage() {
   const params = useParams();
-  const festival = params.festival as string;
+
+  // ✅ Normalize festival to always be a string
+  const rawFestival = params.festival;
+  const festival = Array.isArray(rawFestival) ? rawFestival[0] : rawFestival;
 
   const categories = [
     "Hackathon",
@@ -20,7 +23,7 @@ export default function FestivalPage() {
   return (
     <div className="mt-10">
       <h1 className="text-4xl font-bold text-orange-800 mb-8">
-        {festival.toUpperCase()} Events
+        {festival ? festival.toUpperCase() : "EVENT"} Events
       </h1>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
