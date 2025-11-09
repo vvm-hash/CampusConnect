@@ -2,22 +2,29 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { FiHome, FiGrid, FiSettings, FiLogOut, FiBell, FiSearch } from "react-icons/fi";
 import React from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
-import { useRouter } from "next/navigation";
-import { AuthProvider } from "@/app/context/AuthContext"; // ✅
+import { AuthProvider } from "@/app/context/AuthContext";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(true);
   const pathname = usePathname();
   const router = useRouter();
 
+  const [searchQuery, setSearchQuery] = useState("");
+
   const handleLogout = async () => {
     await signOut(auth);
     router.push("/login");
+  };
+
+  const handleSearchKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && searchQuery.trim()) {
+      router.push(`/dashboard/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
   };
 
   const NavItem = ({
@@ -32,8 +39,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     <Link
       href={href}
       className={`flex items-center gap-3 p-2 rounded-lg transition
-      ${pathname === href ? "bg-gray-100 font-semibold" : "hover:bg-gray-100 text-gray-700"}
-    `}
+      ${pathname === href ? "bg-gray-100 font-semibold" : "hover:bg-gray-100 text-gray-700"}`}
     >
       {icon}
       {open && <span>{label}</span>}
@@ -41,7 +47,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   );
 
   return (
-    <AuthProvider> {/* ✅ WRAPPED HERE */}
+    <AuthProvider>
       <div className="flex h-screen bg-[#f7f8fc]">
 
         {/* Sidebar */}
@@ -78,7 +84,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <div className="flex justify-between items-center px-6 py-4 bg-white shadow-sm">
             <div className="flex items-center bg-gray-100 p-2 rounded-lg w-72">
               <FiSearch className="text-gray-500" />
-              <input type="text" placeholder="Search…" className="bg-transparent px-2 w-full outline-none" />
+              <input
+                type="text"
+                placeholder="Search…"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={handleSearchKey}
+                className="bg-transparent px-2 w-full outline-none"
+              />
             </div>
 
             <div className="flex items-center gap-5">
