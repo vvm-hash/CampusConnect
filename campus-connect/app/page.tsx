@@ -4,6 +4,27 @@ export default function Home() {
   return (
     <div className="bg-white text-gray-900">
 
+      {/* NAVBAR */}
+      <nav className="absolute top-0 left-0 w-full flex items-center justify-between px-8 py-5 z-20 bg-black/20 backdrop-blur-sm">
+        <div className="flex items-center gap-3">
+          <Image
+            src="/logo.png"
+            alt="Campus Connect Logo"
+            width={48}
+            height={48}
+            className="rounded-md"
+          />
+          <span className="text-3xl font-bold text-white drop-shadow-md">
+            Campus Connect
+          </span>
+        </div>
+
+        <div className="flex gap-6 text-white text-lg font-medium drop-shadow">
+          <a href="/login" className="hover:opacity-80 transition">Login</a>
+          <a href="/signup" className="hover:opacity-80 transition">Sign Up</a>
+        </div>
+      </nav>
+
       {/* FULL SCREEN HERO IMAGE */}
       <section className="relative h-screen w-full flex items-center justify-center text-center">
         <Image
@@ -14,10 +35,8 @@ export default function Home() {
           className="object-cover"
         />
 
-        {/* Soft overlay tint */}
         <div className="absolute inset-0 bg-orange-200/20"></div>
 
-        {/* HERO TEXT & BUTTONS */}
         <div className="relative z-10">
           <h1 className="text-6xl font-extrabold text-white drop-shadow-xl mb-6">
             Campus Connect
@@ -40,37 +59,6 @@ export default function Home() {
             >
               Sign Up
             </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ABOUT SECTION */}
-      <section id="about" className="px-8 py-24 text-center bg-gradient-to-b from-amber-50 to-orange-100">
-        <h2 className="text-5xl font-extrabold text-orange-800 mb-6">What is Campus Connect?</h2>
-        <p className="text-2xl max-w-4xl mx-auto text-gray-700 leading-relaxed">
-          A cozy student community space where collaboration thrives.
-          Join clubs, explore events, meet new people, and grow together.
-        </p>
-      </section>
-
-      {/* FEATURES */}
-      <section id="features" className="px-10 py-24 bg-white text-center">
-        <h2 className="text-4xl font-bold text-orange-700 mb-12">What Can You Do?</h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 max-w-6xl mx-auto">
-          <div className="p-8 bg-amber-50 border border-orange-200 rounded-2xl shadow">
-            <h3 className="text-xl font-semibold text-orange-700 mb-2">Join Clubs</h3>
-            <p className="text-gray-600">Find your people. Explore hobbies and passions.</p>
-          </div>
-
-          <div className="p-8 bg-amber-50 border border-orange-200 rounded-2xl shadow">
-            <h3 className="text-xl font-semibold text-orange-700 mb-2">Attend Events</h3>
-            <p className="text-gray-600">Stay updated with fests, workshops and competitions.</p>
-          </div>
-
-          <div className="p-8 bg-amber-50 border border-orange-200 rounded-2xl shadow">
-            <h3 className="text-xl font-semibold text-orange-700 mb-2">Find Teammates</h3>
-            <p className="text-gray-600">Team up for hackathons, projects, or fun collabs.</p>
           </div>
         </div>
       </section>

@@ -8,6 +8,8 @@ import React from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { AuthProvider } from "@/app/context/AuthContext";
+import Image from "next/image";
+
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(true);
@@ -52,12 +54,24 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
         {/* Sidebar */}
         <div className={`transition-all duration-300 bg-white border-r p-5 ${open ? "w-64" : "w-20"}`}>
-          <h1
-            className="text-2xl font-bold text-pink-500 mb-10 cursor-pointer"
+          <div
+            className="flex items-center gap-3 mb-10 cursor-pointer"
             onClick={() => setOpen(!open)}
           >
-            {open ? "Campus Connect" : "CC"}
-          </h1>
+            <Image
+              src="/logo.png"
+              alt="Campus Connect Logo"
+              width={open ? 40 : 32}
+              height={open ? 40 : 32}
+              className="rounded-md transition-all"
+            />
+            {open && (
+              <span className="text-xl font-semibold text-gray-800">
+                Campus Connect
+              </span>
+            )}
+          </div>
+
 
           <nav className="space-y-4">
             <NavItem href="/dashboard" icon={<FiHome size={20} />} label="Feed" />
@@ -96,8 +110,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
             <div className="flex items-center gap-5">
               <FiBell className="text-gray-600 hover:text-black cursor-pointer" size={20} />
-              <div className="h-9 w-9 rounded-full bg-gray-300"></div>
+
+              <Image
+                src="/logo.png"
+                alt="Campus Connect Logo"
+                width={36}
+                height={36}
+                className="rounded-full border border-gray-300 shadow-sm cursor-pointer"
+              />
             </div>
+
           </div>
 
           <div className="p-6 overflow-y-auto">{children}</div>
